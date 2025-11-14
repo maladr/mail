@@ -76,16 +76,25 @@ jobs:
           
           echo "⚙️ Dynamically updating '$CONFIG_FILE' with binding IDs..."
 
+          # Escape special characters in variables for sed
+          DOMAIN_ESCAPED=$(printf '%s\n' "$DOMAIN" | sed 's/[[\.*^$/]/\\&/g')
+          ADMIN_ESCAPED=$(printf '%s\n' "$ADMIN" | sed 's/[[\.*^$/]/\\&/g')
+          JWT_SECRET_ESCAPED=$(printf '%s\n' "$JWT_SECRET" | sed 's/[[\.*^$/]/\\&/g')
+          LINUXDO_CLIENT_ID_ESCAPED=$(printf '%s\n' "$LINUXDO_CLIENT_ID" | sed 's/[[\.*^$/]/\\&/g')
+          LINUXDO_CLIENT_SECRET_ESCAPED=$(printf '%s\n' "$LINUXDO_CLIENT_SECRET" | sed 's/[[\.*^$/]/\\&/g')
+          LINUXDO_CALLBACK_URL_ESCAPED=$(printf '%s\n' "$LINUXDO_CALLBACK_URL" | sed 's/[[\.*^$/]/\\&/g')
+          LINUXDO_SWITCH_ESCAPED=$(printf '%s\n' "$LINUXDO_SWITCH" | sed 's/[[\.*^$/]/\\&/g')
+
           sed -i "s|\${D1_DATABASE_ID}|${D1_DATABASE_ID}|g" "$CONFIG_FILE"
           sed -i "s|\${KV_NAMESPACE_ID}|${KV_NAMESPACE_ID}|g" "$CONFIG_FILE"
           sed -i "s|\${R2_BUCKET_NAME}|${R2_BUCKET_NAME}|g" "$CONFIG_FILE"
-          sed -i "s|\"\${DOMAIN}\"|${DOMAIN}|g" "$CONFIG_FILE"
-          sed -i "s|\${ADMIN}|${ADMIN}|g" "$CONFIG_FILE"
-          sed -i "s|\${JWT_SECRET}|${JWT_SECRET}|g" "$CONFIG_FILE"
-          sed -i "s|\${LINUXDO_CLIENT_ID}|${LINUXDO_CLIENT_ID}|g" "$CONFIG_FILE"
-          sed -i "s|\${LINUXDO_CLIENT_SECRET}|${LINUXDO_CLIENT_SECRET}|g" "$CONFIG_FILE"
-          sed -i "s|\${LINUXDO_CALLBACK_URL}|${LINUXDO_CALLBACK_URL}|g" "$CONFIG_FILE"
-          sed -i "s|\${LINUXDO_SWITCH}|${LINUXDO_SWITCH}|g" "$CONFIG_FILE"
+          sed -i "s|\"\${DOMAIN}\"|${DOMAIN_ESCAPED}|g" "$CONFIG_FILE"
+          sed -i "s|\${ADMIN}|${ADMIN_ESCAPED}|g" "$CONFIG_FILE"
+          sed -i "s|\${JWT_SECRET}|${JWT_SECRET_ESCAPED}|g" "$CONFIG_FILE"
+          sed -i "s|\${LINUXDO_CLIENT_ID}|${LINUXDO_CLIENT_ID_ESCAPED}|g" "$CONFIG_FILE"
+          sed -i "s|\${LINUXDO_CLIENT_SECRET}|${LINUXDO_CLIENT_SECRET_ESCAPED}|g" "$CONFIG_FILE"
+          sed -i "s|\${LINUXDO_CALLBACK_URL}|${LINUXDO_CALLBACK_URL_ESCAPED}|g" "$CONFIG_FILE"
+          sed -i "s|\${LINUXDO_SWITCH}|${LINUXDO_SWITCH_ESCAPED}|g" "$CONFIG_FILE"
 
           echo "🔍 Debug: Checking configuration after replacement..."
           echo "R2_BUCKET_NAME value: '$R2_BUCKET_NAME'"
