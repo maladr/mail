@@ -86,6 +86,8 @@ const telegramService = {
 		const textNodes = [];
 		const placeholders = [];
 
+		console.log('[翻译] 开始处理HTML，长度:', html.length);
+
 		// 用占位符替换文本节点
 		let processedHtml = html.replace(/>([^<]+)</g, (match, text) => {
 			const trimmed = text.trim();
@@ -98,17 +100,28 @@ const telegramService = {
 			return match;
 		});
 
+		console.log('[翻译] 提取了', textNodes.length, '个文本节点');
+
 		// 翻译所有文本节点
 		if (textNodes.length > 0) {
 			const combinedText = textNodes.join('\n___SEPARATOR___\n');
+			console.log('[翻译] 合并文本长度:', combinedText.length);
+			console.log('[翻译] 前100个字符:', combinedText.substring(0, 100));
+
 			const translatedCombined = await this._translatePlainText(c, combinedText, targetLang);
+			console.log('[翻译] 翻译结果长度:', translatedCombined.length);
+			console.log('[翻译] 翻译后前100个字符:', translatedCombined.substring(0, 100));
+
 			const translatedNodes = translatedCombined.split(/\n___SEPARATOR___\n/);
+			console.log('[翻译] 分割后节点数:', translatedNodes.length);
 
 			// 替换回去
 			placeholders.forEach((placeholder, index) => {
 				const translatedText = translatedNodes[index] || textNodes[index];
 				processedHtml = processedHtml.replace(placeholder, translatedText);
 			});
+		} else {
+			console.log('[翻译] 警告: 没有提取到任何文本节点');
 		}
 
 		return processedHtml;
@@ -117,14 +130,19 @@ const telegramService = {
 	async _translatePlainText(c, text, targetLang) {
 		// 使用 Cloudflare AI Workers 进行翻译
 		// 如果环境中没有绑定 AI，则使用免费的翻译 API
+		console.log('[翻译] _translatePlainText 被调用, targetLang:', targetLang);
+		console.log('[翻译] 是否有 AI 绑定:', !!c.env.AI);
+
 		if (c.env.AI) {
 			try {
+				console.log('[翻译] 使用 Cloudflare AI 翻译');
 				const response = await c.env.AI.run('@cf/meta/m2m100-1.2b', {
 					text: text,
 					source_lang: 'auto',
 					target_lang: targetLang
 				});
 
+				console.log('[翻译] CF AI 响应:', response);
 				return response.translated_text || text;
 			} catch (error) {
 				console.error('Cloudflare AI 翻译失败:', error);
@@ -133,6 +151,7 @@ const telegramService = {
 
 		// 备用方案：使用 LibreTranslate API (需要部署或使用公共实例)
 		// 或者使用其他免费翻译服务
+		console.log('[翻译] 使用备用翻译服务');
 		return await this._fallbackTranslate(text, targetLang);
 	},
 
