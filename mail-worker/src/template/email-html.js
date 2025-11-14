@@ -134,7 +134,8 @@ export default function emailHtmlTemplate(html, domain) {
 
         function renderHTML(html) {
             const container = document.getElementById('container');
-            const shadowRoot = container.attachShadow({ mode: 'open' });
+            // 检查是否已经有 Shadow DOM，如果有就使用现有的
+            const shadowRoot = container.shadowRoot || container.attachShadow({ mode: 'open' });
 
             // 提取 <body> 的 style 属性
             const bodyStyleRegex = /<body[^>]*style="([^"]*)"[^>]*>/i;
