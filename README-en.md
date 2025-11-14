@@ -7,9 +7,20 @@
 <h1>Cloud Mail</h1>
 </div>
 <div align="center">
-    <h4>Serverless responsive email service with sending capabilities, deployable on the Cloudflare platform 🎉</h4> 
+    <h4>Serverless responsive email service with sending capabilities, deployable on the Cloudflare platform 🎉</h4>
 </div>
 
+---
+
+## 📢 About This Repository
+
+> **This repository is a fork of [maillab/cloud-mail](https://github.com/maillab/cloud-mail) for personal learning and use only.**
+>
+> Thanks to the original author [@maillab](https://github.com/maillab) for the open-source contribution! This repository adds features like Telegram email translation on top of the original project. All modifications are for personal use.
+>
+> For the stable version, please visit: **[Original Repository](https://github.com/maillab/cloud-mail)**
+
+---
 
 ## Project Showcase
 

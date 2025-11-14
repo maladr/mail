@@ -6,11 +6,23 @@
 <h1>Cloud Mail</h1>
 </div>
 <div align="center">
-    <h4>Serverless 响应式邮箱服务，支持邮件发送，可部署到Cloudflare平台 🎉</h4> 
+    <h4>Serverless 响应式邮箱服务，支持邮件发送，可部署到Cloudflare平台 🎉</h4>
 </div>
 <div align="center">
     <span>简体中文 | <a href="/README-en.md" style="margin-left: 5px">English </a></span>
 </div>
+
+---
+
+## 📢 关于本仓库
+
+> **本仓库基于 [maillab/cloud-mail](https://github.com/maillab/cloud-mail) 进行二次开发，仅供个人学习和使用。**
+>
+> 感谢原作者 [@maillab](https://github.com/maillab) 的开源贡献！本仓库在原项目基础上新增了 Telegram 邮件翻译功能等特性，所有改动均为个人自用。
+>
+> 如需使用稳定版本，请访问：**[原项目地址](https://github.com/maillab/cloud-mail)**
+
+---
 
 ## 项目简介
 
