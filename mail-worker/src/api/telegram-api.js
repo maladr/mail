@@ -25,3 +25,31 @@ app.post('/telegram/translate', async (c) => {
 	}
 });
 
+// 测试翻译功能的端点
+app.get('/telegram/test-translate', async (c) => {
+	try {
+		const testText = "Hello, this is a test message. How are you today?";
+		const targetLang = "zh";
+
+		console.log('[测试] 开始测试翻译功能');
+		console.log('[测试] 是否有 AI 绑定:', !!c.env.AI);
+
+		const translatedText = await telegramService.translateText(c, testText, targetLang);
+
+		return c.json({
+			success: true,
+			hasAI: !!c.env.AI,
+			original: testText,
+			translated: translatedText,
+			targetLang: targetLang
+		});
+	} catch (error) {
+		console.error('[测试] 翻译测试失败:', error);
+		return c.json({
+			success: false,
+			error: error.message,
+			hasAI: !!c.env.AI
+		});
+	}
+});
+
